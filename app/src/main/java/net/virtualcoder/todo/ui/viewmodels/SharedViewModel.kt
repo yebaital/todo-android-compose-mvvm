@@ -11,7 +11,9 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import net.virtualcoder.todo.data.models.ToDoTask
 import net.virtualcoder.todo.data.repositories.ToDoRepository
+import net.virtualcoder.todo.util.RequestState
 import net.virtualcoder.todo.util.SearchAppBarState
+import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,14 +25,19 @@ class SharedViewModel @Inject constructor(
         mutableStateOf(SearchAppBarState.CLOSED)
     val searchTextState: MutableState<String> = mutableStateOf("")
 
-    private val _allTasks = MutableStateFlow<List<ToDoTask>>(emptyList())
-    val allTasks: StateFlow<List<ToDoTask>> = _allTasks
+    private val _allTasks = MutableStateFlow<RequestState<List<ToDoTask>>>(RequestState.Idle)
+    val allTasks: StateFlow<RequestState<List<ToDoTask>>> = _allTasks
 
-    fun getAllTask() {
-        viewModelScope.launch {
-            repository.getAllTasks.collect {
-                _allTasks.value = it
+    fun getAllTasks() {
+        _allTasks.value = RequestState.Loading
+        try {
+            viewModelScope.launch {
+                repository.getAllTasks.collect {
+                    _allTasks.value = RequestState.Success(it)
+                }
             }
+        } catch (e:Exception) {
+            _allTasks.value = RequestState.Error(e)
         }
     }
 

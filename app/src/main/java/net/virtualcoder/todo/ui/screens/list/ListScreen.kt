@@ -1,12 +1,11 @@
 package net.virtualcoder.todo.ui.screens.list
 
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -15,12 +14,19 @@ import net.virtualcoder.todo.ui.theme.fabBackgroundColor
 import net.virtualcoder.todo.ui.viewmodels.SharedViewModel
 import net.virtualcoder.todo.util.SearchAppBarState
 
+@ExperimentalMaterialApi
 @Composable
 fun ListScreen(
     navigateToTaskScreen: (taskId: Int) -> Unit,
     sharedViewModel: SharedViewModel
 ) {
 
+    //using true for key1 is a workaround to trigger getAllTasks only once on composable launch
+    LaunchedEffect(key1 = true) {
+        sharedViewModel.getAllTasks()
+    }
+
+    val allTasks by sharedViewModel.allTasks.collectAsState()
     val searchAppBarState: SearchAppBarState by sharedViewModel.searchAppBarState
     val searchTextState: String by sharedViewModel.searchTextState
 
@@ -33,7 +39,10 @@ fun ListScreen(
             )
         },
         content = {
-            ListContent()
+            ListContent(
+                allTasks,
+                navigateToTaskScreen
+            )
         },
         floatingActionButton = {
             ListFab(onFabClicked = navigateToTaskScreen)

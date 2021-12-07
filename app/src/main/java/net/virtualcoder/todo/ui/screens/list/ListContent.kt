@@ -2,6 +2,8 @@ package net.virtualcoder.todo.ui.screens.list
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -16,10 +18,42 @@ import androidx.compose.ui.tooling.preview.Preview
 import net.virtualcoder.todo.data.models.Priority
 import net.virtualcoder.todo.data.models.ToDoTask
 import net.virtualcoder.todo.ui.theme.*
+import net.virtualcoder.todo.util.RequestState
 
+@ExperimentalMaterialApi
 @Composable
-fun ListContent() {
+fun ListContent(
+    tasks: RequestState<List<ToDoTask>>,
+    navigateToTaskScreen: (taskId: Int) -> Unit
+) {
+    if (tasks is RequestState.Success) {
+        if (tasks.data.isEmpty()) {
+            EmptyContent()
+        } else {
+            DisplayTasks(tasks = tasks.data, navigateToTaskScreen = navigateToTaskScreen)
+        }
+    }
+}
 
+@ExperimentalMaterialApi
+@Composable
+fun DisplayTasks(
+    tasks: List<ToDoTask>,
+    navigateToTaskScreen: (taskId: Int) -> Unit
+) {
+    LazyColumn {
+        items(
+            items = tasks,
+            key = { task ->
+                task.id
+            }
+        ) { task ->
+            TaskItem(
+                toDoTask = task,
+                navigateToTaskScreen = navigateToTaskScreen
+            )
+        }
+    }
 }
 
 @ExperimentalMaterialApi
@@ -59,10 +93,7 @@ fun TaskItem(
                 ) {
                     Canvas(
                         modifier = Modifier
-                            .width(PRIORITY_INDICATOR_SIZE)
-                            .height(
-                                PRIORITY_INDICATOR_SIZE
-                            )
+                            .size(PRIORITY_INDICATOR_SIZE)
                     ) {
                         drawCircle(toDoTask.priority.color)
                     }
@@ -90,7 +121,8 @@ fun TaskItemPreview() {
             "My First Task",
             "In this first task we embark on a mission to create a list of tasks that will " +
                     "change not only the world but the entire universe, and perhaps the future",
-            Priority.HIGH),
+            Priority.HIGH
+        ),
         navigateToTaskScreen = {}
     )
 }
