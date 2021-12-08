@@ -9,17 +9,22 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import net.virtualcoder.todo.data.models.Priority
 import net.virtualcoder.todo.data.models.ToDoTask
 import net.virtualcoder.todo.data.repositories.ToDoRepository
 import net.virtualcoder.todo.util.RequestState
 import net.virtualcoder.todo.util.SearchAppBarState
-import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
 class SharedViewModel @Inject constructor(
     private val repository: ToDoRepository
 ) : ViewModel() {
+
+    val id: MutableState<Int> = mutableStateOf(0)
+    val title: MutableState<String> = mutableStateOf("")
+    val description: MutableState<String> = mutableStateOf("")
+    val priority: MutableState<Priority> = mutableStateOf(Priority.LOW)
 
     val searchAppBarState: MutableState<SearchAppBarState> =
         mutableStateOf(SearchAppBarState.CLOSED)
@@ -36,7 +41,7 @@ class SharedViewModel @Inject constructor(
                     _allTasks.value = RequestState.Success(it)
                 }
             }
-        } catch (e:Exception) {
+        } catch (e: Exception) {
             _allTasks.value = RequestState.Error(e)
         }
     }
@@ -44,11 +49,25 @@ class SharedViewModel @Inject constructor(
     private val _selectedTask: MutableStateFlow<ToDoTask?> = MutableStateFlow(null)
     val selectedTask: StateFlow<ToDoTask?> = _selectedTask
 
-    fun getSelectedTask(taskId:Int){
+    fun getSelectedTask(taskId: Int) {
         viewModelScope.launch {
-            repository.getSelectedTask(taskId).collect { task->
+            repository.getSelectedTask(taskId).collect { task ->
                 _selectedTask.value = task
             }
+        }
+    }
+
+    fun updateTaskFields(selectedTask: ToDoTask?) {
+        if (selectedTask != null) {
+            id.value = selectedTask.id
+            title.value = selectedTask.title
+            description.value = selectedTask.description
+            priority.value = selectedTask.priority
+        } else {
+            id.value = 0
+            title.value = ""
+            description.value = ""
+            priority.value = Priority.LOW
         }
     }
 
