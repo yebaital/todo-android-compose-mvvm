@@ -13,12 +13,12 @@ import net.virtualcoder.todo.ui.theme.ToDoTheme
 import net.virtualcoder.todo.ui.viewmodels.SharedViewModel
 
 @AndroidEntryPoint
+@ExperimentalMaterialApi
 class MainActivity : ComponentActivity() {
 
     private lateinit var navController: NavHostController
     private val sharedViewModel: SharedViewModel by viewModels()
 
-    @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
