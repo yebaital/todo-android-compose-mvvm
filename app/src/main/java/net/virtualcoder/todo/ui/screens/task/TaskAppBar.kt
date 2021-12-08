@@ -19,9 +19,18 @@ import net.virtualcoder.todo.util.Action
 
 @Composable
 fun TaskAppBar(
+    selectedTask: ToDoTask?,
     navigateToListScreen: (Action) -> Unit
 ) {
-    NewTaskAppBar(navigateToListScreen = navigateToListScreen)
+    if (selectedTask == null) {
+        NewTaskAppBar(navigateToListScreen = navigateToListScreen)
+    } else {
+        ExistingTaskAppBar(
+            selectedTask = selectedTask,
+            navigateToListScreen = navigateToListScreen
+        )
+    }
+
 }
 
 @Composable
@@ -47,7 +56,7 @@ fun NewTaskAppBar(
 
 @Composable
 fun ExistingTaskAppBar(
-    selectedTask:ToDoTask,
+    selectedTask: ToDoTask,
     navigateToListScreen: (Action) -> Unit
 ) {
     TopAppBar(
@@ -134,6 +143,8 @@ fun PreviewNewTaskAppBar() {
 @Preview
 @Composable
 fun PreviewExistingTaskAppBar() {
-    ExistingTaskAppBar(selectedTask = ToDoTask(0,"New Task", "This is a really " +
-            "great task u guise", Priority.MEDIUM), navigateToListScreen = {})
+    ExistingTaskAppBar(selectedTask = ToDoTask(
+        0, "New Task", "This is a really " +
+                "great task u guise", Priority.MEDIUM
+    ), navigateToListScreen = {})
 }
