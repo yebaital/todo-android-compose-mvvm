@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import net.virtualcoder.todo.data.models.Priority
 import net.virtualcoder.todo.data.models.ToDoTask
 import net.virtualcoder.todo.data.repositories.ToDoRepository
+import net.virtualcoder.todo.util.Constants.MAX_TITLE_LENGTH
 import net.virtualcoder.todo.util.RequestState
 import net.virtualcoder.todo.util.SearchAppBarState
 import javax.inject.Inject
@@ -68,6 +69,12 @@ class SharedViewModel @Inject constructor(
             title.value = ""
             description.value = ""
             priority.value = Priority.LOW
+        }
+    }
+
+    fun updateTitle(newTitle: String) {
+        if (newTitle.length < MAX_TITLE_LENGTH) {
+            title.value = newTitle
         }
     }
 
