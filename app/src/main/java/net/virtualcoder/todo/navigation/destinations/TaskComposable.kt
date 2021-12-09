@@ -31,8 +31,12 @@ fun NavGraphBuilder.taskComposable(
         put selectedTask as key instead of taskId to prevent empty task screen caused by
         LaunchEffect executing before selectedTask is retrieved
         */
-        LaunchedEffect(key1 = selectedTask){
-            sharedViewModel.updateTaskFields(selectedTask = selectedTask)
+        LaunchedEffect(key1 = selectedTask) {
+            //to prevent undo bug execute updateTaskFields only when conditions below
+            if (selectedTask != null || taskId == -1) {
+                sharedViewModel.updateTaskFields(selectedTask = selectedTask)
+            }
+
         }
 
         TaskScreen(
