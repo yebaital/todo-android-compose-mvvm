@@ -23,6 +23,7 @@ fun ListScreen(
     //using true for key1 is a workaround to trigger getAllTasks only once on composable launch
     LaunchedEffect(key1 = true) {
         sharedViewModel.getAllTasks()
+        sharedViewModel.readSortState()
     }
     val action by sharedViewModel.action
 
@@ -32,6 +33,10 @@ fun ListScreen(
     val scaffoldState = rememberScaffoldState()
 
     val searchedTasks by sharedViewModel.searchedTasks.collectAsState()
+
+    val sortState by sharedViewModel.sortState.collectAsState()
+    val lowPriorityTasks by sharedViewModel.lowPriorityTasks.collectAsState()
+    val highPriorityTasks by sharedViewModel.highPriorityTasks.collectAsState()
 
     DisplaySnackBar(
         scaffoldState = scaffoldState,
@@ -57,6 +62,9 @@ fun ListScreen(
                 allTasks = allTasks,
                 navigateToTaskScreen = navigateToTaskScreen,
                 searchedTasks = searchedTasks,
+                lowPriorityTasks = lowPriorityTasks,
+                highPriorityTasks = highPriorityTasks,
+                sortState = sortState,
                 searchAppBarState = searchAppBarState
             )
         },
