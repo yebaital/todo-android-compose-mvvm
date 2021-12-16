@@ -11,3 +11,5 @@ val TOP_APP_BAR_HEIGHT = 56.dp //from the official docs
 val PRIORITY_DROP_DOWN_HEIGHT = 60.dp //from the official docs
 
 val TASK_ITEM_ELEVATION = 2.dp //from the official docs
+
+val LOGO_HEIGHT = 100.dp

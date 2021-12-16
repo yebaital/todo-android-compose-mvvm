@@ -7,7 +7,7 @@ import androidx.activity.viewModels
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import dagger.hilt.android.AndroidEntryPoint
 import net.virtualcoder.todo.navigation.SetupNavigation
 import net.virtualcoder.todo.ui.theme.ToDoTheme
@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ToDoTheme {
-                navController = rememberNavController()
+                navController = rememberAnimatedNavController()
                 SetupNavigation(navController, sharedViewModel)
             }
         }
