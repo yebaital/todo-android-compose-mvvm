@@ -1,5 +1,6 @@
 package net.virtualcoder.todo.ui.screens.list
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -13,6 +14,7 @@ import net.virtualcoder.todo.ui.viewmodels.SharedViewModel
 import net.virtualcoder.todo.util.Action
 import net.virtualcoder.todo.util.SearchAppBarState
 
+@ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @Composable
 fun ListScreen(
@@ -65,6 +67,10 @@ fun ListScreen(
                 lowPriorityTasks = lowPriorityTasks,
                 highPriorityTasks = highPriorityTasks,
                 sortState = sortState,
+                onSwipeToDelete = { action, task ->
+                    sharedViewModel.action.value = action
+                    sharedViewModel.updateTaskFields(selectedTask = task)
+                },
                 searchAppBarState = searchAppBarState
             )
         },

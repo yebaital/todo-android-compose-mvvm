@@ -1,5 +1,6 @@
 package net.virtualcoder.todo.navigation
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -10,6 +11,7 @@ import net.virtualcoder.todo.navigation.destinations.taskComposable
 import net.virtualcoder.todo.ui.viewmodels.SharedViewModel
 import net.virtualcoder.todo.util.Constants.LIST_SCREEN
 
+@ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @Composable
 fun SetupNavigation(

@@ -1,5 +1,6 @@
 package net.virtualcoder.todo.navigation.destinations
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavGraphBuilder
@@ -12,6 +13,7 @@ import net.virtualcoder.todo.util.Constants.LIST_ARGUMENT_KEY
 import net.virtualcoder.todo.util.Constants.LIST_SCREEN
 import net.virtualcoder.todo.util.toAction
 
+@ExperimentalAnimationApi
 @ExperimentalMaterialApi
 fun NavGraphBuilder.listComposable(
     navigateToTaskScreen: (taskId: Int) -> Unit,
