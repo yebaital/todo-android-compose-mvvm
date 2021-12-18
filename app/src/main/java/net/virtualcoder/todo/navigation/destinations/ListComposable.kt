@@ -3,6 +3,7 @@ package net.virtualcoder.todo.navigation.destinations
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
@@ -29,7 +30,11 @@ fun NavGraphBuilder.listComposable(
         LaunchedEffect(key1 = action) {
             sharedViewModel.action.value = action
         }
+
+        val databaseAction by sharedViewModel.action
+
         ListScreen(
+            action = databaseAction,
             navigateToTaskScreen = navigateToTaskScreen,
             sharedViewModel = sharedViewModel
         )
