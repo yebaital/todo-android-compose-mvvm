@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import net.virtualcoder.todo.R
@@ -49,6 +50,15 @@ fun SplashScreen(
         delay(SPLASH_SCREEN_DELAY)
         navigateToListScreen()
     }
+
+    SplashLogo(offsetState = offsetState, alphaState = alphaState)
+}
+
+@Composable
+fun SplashLogo(
+    offsetState: Dp,
+    alphaState: Float
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -78,5 +88,5 @@ fun getLogo(): Int {
 @Preview
 @Composable
 fun SplashScreenPreview() {
-    SplashScreen(navigateToListScreen = {})
+    SplashLogo(offsetState = 0.dp, alphaState = 1f)
 }
