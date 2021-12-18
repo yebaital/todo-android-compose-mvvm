@@ -23,12 +23,6 @@ fun ListScreen(
     sharedViewModel: SharedViewModel
 ) {
 
-    //using true for key1 is a workaround to trigger getAllTasks only once on composable launch
-    LaunchedEffect(key1 = true) {
-        sharedViewModel.getAllTasks()
-        sharedViewModel.readSortState()
-    }
-
     LaunchedEffect(key1 = action) {
         sharedViewModel.handleDatabaseActions(action = action)
     }
