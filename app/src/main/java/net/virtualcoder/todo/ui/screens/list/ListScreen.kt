@@ -68,6 +68,8 @@ fun ListScreen(
                 onSwipeToDelete = { action, task ->
                     sharedViewModel.action.value = action
                     sharedViewModel.updateTaskFields(selectedTask = task)
+                    //Fix snackbar behavior on deleting multiple tasks
+                    scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
                 },
                 searchAppBarState = searchAppBarState
             )

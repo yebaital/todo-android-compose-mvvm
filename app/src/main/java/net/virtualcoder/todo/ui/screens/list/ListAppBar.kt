@@ -26,7 +26,6 @@ import net.virtualcoder.todo.ui.theme.*
 import net.virtualcoder.todo.ui.viewmodels.SharedViewModel
 import net.virtualcoder.todo.util.Action
 import net.virtualcoder.todo.util.SearchAppBarState
-import net.virtualcoder.todo.util.TrailingIconState
 
 @Composable
 fun ListAppBar(
@@ -214,9 +213,6 @@ fun SearchAppBar(
     onCloseClicked: () -> Unit,
     onSearchClicked: (String) -> Unit
 ) {
-
-    var trailingIconState by remember { mutableStateOf(TrailingIconState.READY_TO_DELETE) }
-
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -258,20 +254,12 @@ fun SearchAppBar(
             trailingIcon = {
                 IconButton(
                     onClick = {
-                        when (trailingIconState) {
-                            TrailingIconState.READY_TO_DELETE -> {
-                                onTextChange("")
-                                trailingIconState = TrailingIconState.READY_TO_CLOSE
-                            }
-                            TrailingIconState.READY_TO_CLOSE -> {
-                                if (text.isNotEmpty()) {
-                                    onTextChange("")
-                                } else {
-                                    onCloseClicked()
-                                    trailingIconState = TrailingIconState.READY_TO_DELETE
-                                }
-                            }
-                        }
+                        //fix pressing search bar close icon behavior
+                       if(text.isNotEmpty()) {
+                           onTextChange("")
+                       }else{
+                           onCloseClicked()
+                       }
                     }
                 ) {
                     Icon(

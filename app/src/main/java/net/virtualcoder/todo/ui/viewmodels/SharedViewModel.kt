@@ -60,6 +60,7 @@ class SharedViewModel @Inject constructor(
     )
 
     init {
+        //Call here because SharedViewModel survives configuration changes
         getAllTasks()
         readSortState()
     }
